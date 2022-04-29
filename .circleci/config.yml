@@ -108,7 +108,7 @@ workflows:
   default:
     jobs:
       - build-frontend
-      - build-backend
+      - build-backend:
           context:
             - teste
       - test-frontend:
