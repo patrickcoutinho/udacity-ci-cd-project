@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.9.4
+
 jobs:
   build-frontend:
     docker:
@@ -34,6 +37,10 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      - slack/notify:
+          event: fail
+          mentions: "@everyone"
+          template: basic_fail_1
 
   test-frontend:
     docker:
