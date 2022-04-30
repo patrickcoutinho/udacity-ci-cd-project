@@ -206,10 +206,12 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Install awscli
           command: |
-            sudo apt-get install -y awscli
+            sudo apt-get update && apt-get install -y awscli
       - run:
           name: Run migrations
           command: |
