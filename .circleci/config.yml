@@ -183,7 +183,7 @@ jobs:
             pip3 install --upgrade pip \
                 && pip3 install --no-cache-dir awscli
       - add_ssh_keys:
-          fingerprints: ["a3:bd:0e:5d:8b:99:f1:7f:ea:f9:2f:43:ad:74:1b:9b"]
+          fingerprints: ["53:7e:7d:cb:cc:d9:a6:f5:07:7d:21:75:89:49:ef:14"]
       - run:
           name: Add server to known hosts
           command: |
