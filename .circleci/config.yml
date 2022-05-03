@@ -238,8 +238,6 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints: ["fa:96:9b:a8:04:a6:d5:7c:2a:f2:19:69:a5:c3:e5:18"]
       - run:
           name: Install ansible and openssh
           command: |
@@ -321,7 +319,7 @@ jobs:
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
-            cd .circleci/ansible
+            cd ~/project/.circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
