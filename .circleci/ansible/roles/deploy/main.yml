@@ -1,0 +1,8 @@
+---
+- name: npm i
+  shell: |
+    npm i
+- name: Executing node
+  shell: |
+    pm2 start npm -- start
+    pm2 ls
