@@ -314,12 +314,16 @@ jobs:
           name: Deploy backend
           command: |
             cd backend
-            npm cache clean --force
+            echo "### debug 1"
             npm i
+            echo "### debug 2"
             npm run build
+            echo "### debug 3"
             cd ..
             tar -C backend -czvf artifact.tar.gz .
+            echo "### debug 4"
             cd ~/project/.circleci/ansible
+            echo "### debug 5"
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
