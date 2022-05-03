@@ -314,9 +314,7 @@ jobs:
           name: Deploy backend
           command: |
             cd backend
-            rm -rf package-lock.json npm-shrinkwrap.json node_modules
             npm cache clean --force
-            npm cache verify
             npm i
             npm run build
             cd ..
