@@ -280,6 +280,8 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - restore_cache:
+          keys: [backend-build]
       - attach_workspace:
           at: ~/
       - run:
@@ -290,10 +292,10 @@ jobs:
           name: Install ansible and openssh
           command: |
             apk add --update ansible openssh
-      - run:
-          name: Install nodejs and npm
-          command: |
-            apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/main/ nodejs=13.8.0
+      # - run:
+      #     name: Install nodejs and npm
+      #     command: |
+      #       apk add --update nodejs npm
       - run:
           name: Install awscli
           command: |
@@ -313,13 +315,13 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            cd backend
-            echo "### debug 1"
-            npm i
-            echo "### debug 2"
-            npm run build
-            echo "### debug 3"
-            cd ..
+            # cd backend
+            # echo "### debug 1"
+            # npm i
+            # echo "### debug 2"
+            # npm run build
+            # echo "### debug 3"
+            # cd ..
             tar -C backend -czvf artifact.tar.gz .
             echo "### debug 4"
             cd ~/project/.circleci/ansible
