@@ -292,10 +292,6 @@ jobs:
           name: Install ansible and openssh
           command: |
             apk add --update ansible openssh
-      # - run:
-      #     name: Install nodejs and npm
-      #     command: |
-      #       apk add --update nodejs npm
       - run:
           name: Install awscli
           command: |
@@ -314,20 +310,10 @@ jobs:
             ssh-keyscan -H ${IP} >> ~/.ssh/known_hosts
       - run:
           name: Deploy backend
+          working_directory: ~/project/.circleci/ansible
           command: |
-            # cd backend
-            # echo "### debug 1"
-            # npm i
-            # echo "### debug 2"
-            # npm run build
-            # echo "### debug 3"
-            # cd ..
             tar -C backend -czvf artifact.tar.gz .
-            echo "### debug 4"
             cd ~/project/.circleci/ansible
-            echo "### debug 5"
-            echo "Contents  of the inventory.txt file is -------"
-            cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
