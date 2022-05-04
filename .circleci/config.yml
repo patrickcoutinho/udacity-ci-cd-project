@@ -290,10 +290,10 @@ jobs:
       - run:
           name: Install ansible and openssh
           command: |
-            sapt-get uinstall -y software-properties-common
+            sudo apt-get install -y software-properties-common
             sudo add-apt-repository --yes --update ppa:ansible/ansible
-            sudo apt-get uinstall -y ansible
-            sudo apt-get uinstall -y openssh
+            sudo apt-get install -y ansible
+            sudo apt-get install -y openssh
       - run:
           name: Install awscli
           command: |
