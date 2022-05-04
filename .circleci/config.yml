@@ -293,7 +293,7 @@ jobs:
       - run:
           name: Install nodejs and npm
           command: |
-            apk add --update nodejs=13.8.0
+            apk add  --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.11/main/ nodejs=13.8.0
       - run:
           name: Install awscli
           command: |
