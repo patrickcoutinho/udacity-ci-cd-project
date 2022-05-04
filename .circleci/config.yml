@@ -308,7 +308,7 @@ jobs:
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
             ssh-keyscan -H ${IP} >> ~/.ssh/known_hosts
-       - run:
+      - run:
           name: Tar artifact
           command: |
             tar -C backend -czvf artifact.tar.gz .
