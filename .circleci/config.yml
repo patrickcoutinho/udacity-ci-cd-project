@@ -277,7 +277,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - attach_workspace:
@@ -285,19 +285,20 @@ jobs:
       - run:
           name: Install tar and gzip
           command: |
-            sudo apt-get update
-            sudo apt-get install -y tar gzip
+            apk add --update --no-cache tar gzip
       - run:
           name: Install ansible and openssh
           command: |
-            sudo apt-get install -y software-properties-common
-            sudo add-apt-repository --yes --update ppa:ansible/ansible
-            sudo apt-get install -y ansible
-            sudo apt-get install -y openssh
+            apk add --update ansible openssh
+      - run:
+          name: Install nodejs and npm
+          command: |
+            apk add --update nodejs=13.8.0 npm=6.13.6
       - run:
           name: Install awscli
           command: |
-            sudo apt-get install -y awscli
+            pip3 install --upgrade pip \
+                && pip3 install --no-cache-dir awscli
       - add_ssh_keys:
           fingerprints: ["fa:96:9b:a8:04:a6:d5:7c:2a:f2:19:69:a5:c3:e5:18"]
       - run:
