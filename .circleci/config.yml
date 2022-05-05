@@ -11,17 +11,17 @@ commands:
           name: Destroy back-end environment
           when: on_fail
           command: |
-            # aws cloudformation delete-stack \
-            #     --stack-name udapeople-backend-<<parameters.workflow_id>> \
-            #     --region us-east-1
+            aws cloudformation delete-stack \
+                --stack-name udapeople-backend-<<parameters.workflow_id>> \
+                --region us-east-1
       - run:
           name: Destroy front-end environment
           when: on_fail
           command: |
-            # aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
-            # aws cloudformation delete-stack \
-            #     --stack-name udapeople-frontend-<<parameters.workflow_id>> \
-            #     --region us-east-1
+            aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
+            aws cloudformation delete-stack \
+                --stack-name udapeople-frontend-<<parameters.workflow_id>> \
+                --region us-east-1
 
 orbs:
   slack: circleci/slack@4.9.4
