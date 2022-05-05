@@ -1,9 +1,11 @@
 ---
-- name: "Copy backend folder"
-  become: true
-  copy:
-    src: /root/project/backend
+- name: "Copy artifact and unpack"
+  become: yes
+  unarchive:
+    src: ~/project/artifact.tar.gz
     dest: /home/ubuntu
+    remote_src: no
+    mode: 0755
 
 - name: Executing node
   shell: |
