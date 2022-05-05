@@ -1,11 +1,30 @@
 ---
-- name: npm i
+- name: "Install dependencies"
+  become: true
+  apt:
+    name: ["nodejs", "npm", "tar"]
+    state: latest
+    update_cache: yes
+
+- name: "Copy backend folder"
+  become: true
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu
+
+- name: Install dependencies
   shell: |
+    cd /home/ubuntu/backend
     npm i
-# - name: pm2 stop default
-#   shell: |
-#     pm2 stop default
+
+- name: Building app
+  shell: |
+    cd /home/ubuntu/backend
+    npm run build
+    npm run prestart:prod
+
 - name: Executing node
   shell: |
+    cd /home/ubuntu/backend
     pm2 start npm -- start
     pm2 ls
