@@ -1,24 +1,29 @@
 ---
+- name: "Create app directory"
+  file:
+    path: /home/ubuntu/udapeople
+    state: directory
+
 - name: "Copy backend artifact"
   copy:
     src: /root/project/artifact.tar.gz
-    dest: /home/ubuntu/artifact.tar.gz
+    dest: /home/ubuntu/udapeople/artifact.tar.gz
     backup: yes
 
 - name: Print return information from the previous task
   ansible.builtin.debug:
     var: result
-    verbosity: 4
+    verbosity: 3
 
-- name: Extract artifact.tar.gz into /home/ubuntu
+- name: Extract artifact.tar.gz into /home/ubuntu/udapeople
   shell: |
-    cd /home/ubuntu
+    cd /home/ubuntu/udapeople
     tar xvzf artifact.tar.gz -C .
 
 - name: Print return information from the previous task
   ansible.builtin.debug:
     var: result
-    verbosity: 4
+    verbosity: 3
 
 - name: Executing node
   become: yes
@@ -26,3 +31,5 @@
     cd /home/ubuntu/backend
     pm2 start npm --name 'udapeople' -- start
     pm2 ls
+    args:
+  chdir: /home/ubuntu/udapeople
