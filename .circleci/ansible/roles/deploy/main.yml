@@ -3,6 +3,7 @@
   copy:
     src: /root/project/artifact.tar.gz
     dest: /home/ubuntu/artifact.tar.gz
+    backup: yes
 
 - name: Extract artifact.tar.gz into /home/ubuntu
   shell: |
@@ -13,5 +14,5 @@
   become: yes
   shell: |
     cd /home/ubuntu/backend
-    pm2 start npm -- start
+    pm2 start npm --name 'udapeople' -- start
     pm2 ls
