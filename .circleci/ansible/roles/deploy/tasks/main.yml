@@ -28,7 +28,7 @@
 - name: Executing node
   become: yes
   shell: |
-    cd /home/ubuntu/backend
+    cd /home/ubuntu/backend/udapeople
     pm2 start npm --name 'udapeople' -- start
     pm2 ls
     args:
