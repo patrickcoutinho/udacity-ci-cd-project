@@ -308,16 +308,15 @@ jobs:
                 --filters "Name=tag:project,Values=udapeople" \
                 --output text)
             ssh-keyscan -H ${IP} >> ~/.ssh/known_hosts
-      # - run:
-      #     name: Tar artifact
-      #     command: |
-      #       tar -C backend -czvf artifact.tar.gz .
       - run:
-          name: Deploy backend
-          working_directory: ~/project/.circleci/ansible
+          name: Tar artifact
           command: |
             tar -C backend -czvf artifact.tar.gz .
+      - run:
+          name: Deploy backend
+          command: |
             ls -la
+            cd ~/project/.circleci/ansible
             ansible-playbook -vvvv -i inventory.txt deploy-backend.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -359,7 +358,7 @@ jobs:
             echo "FRONTEND: ${URL}""
             if curl -s ${URL} | grep "Welcome"
             then
-              return 1
+              return 0
             else
               return 1
       - destroy-environment:
