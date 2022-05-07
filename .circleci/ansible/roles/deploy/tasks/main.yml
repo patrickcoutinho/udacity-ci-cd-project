@@ -32,4 +32,3 @@
     pm2 start npm --name 'udapeople' -- start
     pm2 ls
     args:
-  chdir: /home/ubuntu/udapeople
