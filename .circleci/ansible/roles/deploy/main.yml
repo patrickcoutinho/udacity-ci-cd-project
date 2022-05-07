@@ -5,10 +5,20 @@
     dest: /home/ubuntu/artifact.tar.gz
     backup: yes
 
+- name: Print return information from the previous task
+  ansible.builtin.debug:
+    var: result
+    verbosity: 4
+
 - name: Extract artifact.tar.gz into /home/ubuntu
   shell: |
     cd /home/ubuntu
     tar xvzf artifact.tar.gz -C .
+
+- name: Print return information from the previous task
+  ansible.builtin.debug:
+    var: result
+    verbosity: 4
 
 - name: Executing node
   become: yes
