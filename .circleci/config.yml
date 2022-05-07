@@ -60,6 +60,11 @@ jobs:
       - save_cache:
           paths: [backend/node_modules, backend/build]
           key: backend-build
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/backend/node_modules/
+            - project/backend/dist/
       - slack/notify:
           event: fail
           mentions: "@everyone"
