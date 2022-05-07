@@ -26,8 +26,7 @@
     verbosity: 3
 
 - name: Executing node
-  become: yes
   shell: |
-    cd /home/ubuntu/backend/udapeople
-    pm2 start npm --name 'udapeople' -- start
+    cd /home/ubuntu/udapeople
+    NODE_PORT=3030 pm2 start npm --name 'udapeople' -- start
     pm2 ls
