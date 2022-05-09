@@ -36,6 +36,7 @@ commands:
           when: on_fail
           command: |
             # if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
+            echo << parameters.workflow_id >>
             SUCCESS=$(curl --insecure  https://kvdb.io/Fetx7oeXNNEUDNuSrqweji/migration_<< parameters.workflow_id >>)
             if (( $SUCCESS == 1 ));
             then
@@ -393,6 +394,7 @@ jobs:
               return 1
             else
               return 1
+            fi
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
