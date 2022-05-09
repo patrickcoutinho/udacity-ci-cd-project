@@ -23,6 +23,27 @@ commands:
                 --stack-name udapeople-frontend-<<parameters.workflow_id>> \
                 --region us-east-1
 
+  revert-migrations:
+    description: Revert migrations on fail.
+    parameters:
+      workflow_id:
+        type: string
+    steps:
+      - restore_cache:
+          keys: [migrations-dump]
+      - run:
+          name: Revert migrations
+          when: on_fail
+          command: |
+            # if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
+            SUCCESS=$(curl --insecure  https://kvdb.io/Fetx7oeXNNEUDNuSrqweji/migration_<< parameters.workflow_id >>)
+            if (( $SUCCESS == 1 ));
+            then
+              cd ~/project/backend
+              npm install
+              npm run migration:revert
+            fi
+
 orbs:
   slack: circleci/slack@4.9.4
 
@@ -235,6 +256,9 @@ jobs:
             then
                 curl -k https://kvdb.io/Fetx7oeXNNEUDNuSrqweji/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
             fi
+      - save_cache:
+          paths: [backend/migrations_dump.txt]
+          key: migrations-dump
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
@@ -278,7 +302,8 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
-      # Here's where you will add some code to rollback on failure
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   deploy-backend:
     docker:
@@ -325,6 +350,8 @@ jobs:
             ansible-playbook -vvvv -i inventory.txt deploy-backend.yml
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
   smoke-test:
     docker:
@@ -367,6 +394,8 @@ jobs:
             else
               return 1
       - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
