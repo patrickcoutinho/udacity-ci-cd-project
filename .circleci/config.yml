@@ -362,7 +362,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update --no-cache curl
+            apk add --update --no-cache curl nodejs npm
       - run:
           name: Install awscli
           command: |
