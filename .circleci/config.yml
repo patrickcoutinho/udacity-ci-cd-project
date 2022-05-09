@@ -35,8 +35,6 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            # if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
-            echo << parameters.workflow_id >>
             SUCCESS=$(curl --insecure  https://kvdb.io/Fetx7oeXNNEUDNuSrqweji/migration_<< parameters.workflow_id >>)
             if (( $SUCCESS == 1 ));
             then
@@ -395,6 +393,25 @@ jobs:
             else
               return 1
             fi
+      - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert-migrations:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+
+  cloudfront-update:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+              --region us-east-1 \
+              --template-file .circleci/files/cloudfront.yml \
+              --stack-name InitialStack \
+              --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --tags project=udapeople
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
       - revert-migrations:
