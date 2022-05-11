@@ -154,6 +154,9 @@ jobs:
   deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - run:
@@ -199,6 +202,9 @@ jobs:
   configure-infrastructure:
     docker:
       - image: python:3.7-alpine3.11
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - attach_workspace:
@@ -233,6 +239,9 @@ jobs:
   run-migrations:
     docker:
       - image: circleci/node:13.8.0
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - restore_cache:
@@ -264,6 +273,9 @@ jobs:
   deploy-frontend:
     docker:
       - image: python:3.7-alpine3.11
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - run:
@@ -307,6 +319,9 @@ jobs:
   deploy-backend:
     docker:
       - image: python:3.7-alpine3.11
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - restore_cache:
@@ -355,6 +370,9 @@ jobs:
   smoke-test:
     docker:
       - image: python:3.7-alpine3.11
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - run:
@@ -401,6 +419,9 @@ jobs:
   cloudfront-update:
     docker:
       - image: amazon/aws-cli
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - run:
@@ -427,6 +448,9 @@ jobs:
   cleanup:
     docker:
       - image: amazon/aws-cli
+    filters:
+      branches:
+        only: /master\/.*/
     steps:
       - checkout
       - run:
@@ -485,5 +509,5 @@ workflows:
           requires: [deploy-frontend, deploy-backend]
       - cloudfront-update:
           requires: [smoke-test]
-      - cleanup:
-          requires: [cloudfront-update]
+      # - cleanup:
+      #     requires: [cloudfront-update]
