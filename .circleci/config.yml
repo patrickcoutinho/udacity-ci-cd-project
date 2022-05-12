@@ -439,13 +439,13 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/
       - run:
           name: Install tar and gzip
           command: |
             yum update -y \
                 && yum install -y tar gzip
+      - attach_workspace:
+          at: ~/
       - run:
           name: Get old stack workflow id
           command: |
