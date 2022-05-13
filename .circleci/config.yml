@@ -69,23 +69,22 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys: [backend-build]
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Backend build
           command: |
             cd backend
-            ls -la
             npm install
             npm run build
-      # - save_cache:
-      #     paths: [backend/node_modules, backend/build]
-      #     key: backend-build
-      # - persist_to_workspace:
-      #     root: ~/
-      #     paths:
-      #       - project/backend/node_modules/
-      #       - project/backend/dist/
+      - save_cache:
+          paths: [backend/node_modules, backend/build]
+          key: backend-build
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/backend/node_modules/
+            - project/backend/dist/
       - slack/notify:
           event: fail
           mentions: "@everyone"
