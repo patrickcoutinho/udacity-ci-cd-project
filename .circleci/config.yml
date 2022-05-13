@@ -70,17 +70,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-build-2]
       - run:
           name: Backend build
           command: |
             cd backend
-            npm cache clean --force
             npm install
             npm run build
       - save_cache:
           paths: [backend/node_modules, backend/build]
-          key: backend-build
+          key: backend-build-2
       - persist_to_workspace:
           root: ~/
           paths:
@@ -111,7 +110,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-build-2]
       - run:
           name: Test backend
           command: |
@@ -141,7 +140,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-build-2]
       - run:
           name: Analyse Backend
           command: |
@@ -237,7 +236,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-build-2]
       - run:
           name: Install awscli
           command: |
@@ -311,7 +310,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-build-2]
       - attach_workspace:
           at: ~/
       - run:
