@@ -414,10 +414,13 @@ jobs:
             export OldWorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --region us-east-1 \
-              --no-paginate --output text) >> OldWorkflowID.txt
+              --no-paginate --output text)
 
-            echo OldWorkflowID: "${OldWorkflowID}"
+            echo OldWorkflowID: "${OldWorkflowID}" >> OldWorkflowID.txt
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+
+            echo cat result:
+            cat OldWorkflowID.txt
 
             aws cloudformation deploy \
               --region us-east-1 \
