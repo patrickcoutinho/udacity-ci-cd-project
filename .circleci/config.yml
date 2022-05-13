@@ -66,11 +66,11 @@ jobs:
 
   build-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: circleci/node:13.14.0
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-2]
+          keys: [backend-build]
       - run:
           name: Backend build
           command: |
@@ -79,7 +79,7 @@ jobs:
             npm run build
       - save_cache:
           paths: [backend/node_modules, backend/build]
-          key: backend-build-2
+          key: backend-build
       - persist_to_workspace:
           root: ~/
           paths:
@@ -110,7 +110,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-2]
+          keys: [backend-build]
       - run:
           name: Test backend
           command: |
@@ -140,7 +140,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-2]
+          keys: [backend-build]
       - run:
           name: Analyse Backend
           command: |
@@ -236,7 +236,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-2]
+          keys: [backend-build]
       - run:
           name: Install awscli
           command: |
@@ -310,7 +310,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build-2]
+          keys: [backend-build]
       - attach_workspace:
           at: ~/
       - run:
