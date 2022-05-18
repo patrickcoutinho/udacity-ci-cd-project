@@ -185,7 +185,7 @@ jobs:
             aws ec2 describe-instances \
                 --region us-east-1 \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                --filters "Name=tag:project,Values=udapeople" \
+                --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                 --output text >> .circleci/ansible/inventory.txt
             echo "Contents  of the inventory.txt file is -------"
             cat .circleci/ansible/inventory.txt
@@ -217,7 +217,7 @@ jobs:
             IP=$(aws ec2 describe-instances \
                 --region us-east-1 \
                 --query 'Reservations[*].Instances[*].PublicIpAddress' \
-                --filters "Name=tag:project,Values=udapeople" \
+                --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
                 --output text)
             ssh-keyscan -H ${IP} >> ~/.ssh/known_hosts
       - run:
