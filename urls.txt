@@ -1,2 +1,2 @@
 URL01: https://github.com/patrickcoutinho/udacity-ci-cd-project
-URL02: http://udapeople-29de2ab.s3-website-us-east-1.amazonaws.com/
+URL02: http://udapeople-cadb7e6.s3-website-us-east-1.amazonaws.com/
